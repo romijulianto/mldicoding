@@ -1,33 +1,43 @@
-name: Belajar Machine Learning Pemula
-on: push
+name: Create Archive
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+    - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 jobs:
-  release-project:
-  name: Release zipFie to Github Releases
-  runs-on: ubuntu-latest
-  need: build-project
-  steps:
-  - name: Download zipFile
-    uses: actions/download-artifact@v2
-    with:
-      name: rockpaperscissors
-  - name: Archive Folder Zip
-    uses: thedoctor0/zip-release@master
-    with:
-    filename: rockpaperscissors.zip
-  - name: Create github Releases
-    id: create-new-release
-    uses: actions/create-release@v1
-    env:
-    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    with:
-    tag_name: machinelearning
-    release_name: Release for Submit
-  - name: Upload asset to Github Release
-    uses: actions/upload-release-assets@v1
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    with:
-    upload_url: ${{ steps.create-new-release.output.upload_url }}
-    asset_path: ./rockpaperscissors.zip
-    asset_name: rockpaperscissors.zip
-    asset_content_type: application/zip
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Archive Release
+      uses: thedoctor0/zip-release@master
+      with:
+        type: 'zip'
+        filename: 'rockpaperscissors.zip'
+        exclusions: '*.git* /*node_modules/* .editorconfig'
+
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Build project # This would actually build your project, using zip for an example artifact
+      run: |
+        zip --junk-paths rockpaperscissors README.md
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+    - name: Upload Release Asset
+      id: upload-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        asset_path: ./rockpaperscissors.zip
+        asset_name: rockpaperscissors.zip
+        asset_content_type: application/zip
