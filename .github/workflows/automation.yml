@@ -1,4 +1,4 @@
-name : Belajar Machine Learning Pemula
+name: Belajar Machine Learning Pemula
 on: push
 jobs:
   release-project:
