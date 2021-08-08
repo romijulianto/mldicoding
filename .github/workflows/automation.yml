@@ -1,6 +1,6 @@
 name: Create Archive
-on: [push]
-tags: machinelearning
+on: push
+tags: 'machinelearning'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,5 +17,3 @@ jobs:
       with:
         artifacts: "rockpaperscissors.zip"
         token: ${{ secrets.GITHUB_TOKEN }}
-        tag_name: nachinelearning
-        release_name: Release for rockpaperscissors
