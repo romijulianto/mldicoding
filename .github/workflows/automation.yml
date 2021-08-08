@@ -1,4 +1,4 @@
-name: Belajar Machine Learning untuk Pemula
+name: Machine Learning
 on: push
 jobs:
 build-project:
