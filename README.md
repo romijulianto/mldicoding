@@ -1,4 +1,4 @@
-# mldicoding
+# Belajar Machine Learning Untuk Pemula
 Repository for machine learning dicoding
 
 Learning resources
