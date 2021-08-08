@@ -26,7 +26,7 @@ jobs:
     uses: actions/upload-release-assets@v1
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    with
+    with:
     upload_url: ${{ steps.create-new-release.output.upload_url }}
     asset_path: ./rockpaperscissors.zip
     asset_name: rockpaperscissors.zip
