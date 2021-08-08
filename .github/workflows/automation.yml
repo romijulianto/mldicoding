@@ -1,6 +1,5 @@
 name: Create Archive
-on: push
-tags: 'machinelearning'
+on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,6 +12,8 @@ jobs:
         filename: 'rockpaperscissors.zip'
         exclusions: '*.git* /*node_modules/* .editorconfig'
     - name: Upload Release
+      tags:
+        - '*'
       uses: ncipollo/release-action@v1
       with:
         artifacts: "rockpaperscissors.zip"
