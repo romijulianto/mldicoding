@@ -12,6 +12,7 @@ build-project:
   - name: Build project assets
     run: npm run build
   - name: Upload static site
+    tags: machinelearning
     uses: actions/upload-artifact@v2
     with:
       name: static-site
